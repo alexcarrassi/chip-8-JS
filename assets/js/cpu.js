@@ -135,11 +135,11 @@ class CPU {
             
             case 0x2000: 
                 this.stack.push(this.pc);
-                this.pc = (opcode & 0x0FFF);
+                this.pc = (opcode & 0xFFF);
                 break;
               
             case 0x3000:
-                if(this.v[x] == (opcode & 0xFF) ) {
+                if(this.v[x] === (opcode & 0xFF) ) {
                     this.pc += 2;
                 }
                 break;
@@ -151,7 +151,7 @@ class CPU {
                 break;
 
             case 0x5000:
-                if(this.v[x] == this.v[y]) {
+                if(this.v[x] === this.v[y]) {
                     this.pc +=2;
                 }
 
@@ -163,7 +163,7 @@ class CPU {
                 break;
 
             case 0x7000:
-                this.v[x] += (opcode &0xFF);
+                this.v[x] += (opcode & 0xFF);
                 break;
 
             case 0x8000:
@@ -173,15 +173,15 @@ class CPU {
                         break;
 
                     case 0x1: 
-                        this.v[x] = this.v[x] | this.v[y];
+                        this.v[x] |= this.v[y];
                         break;
 
                     case 0x2:
-                        this.v[x] = this.v[x] & this.v[y];
+                        this.v[x] &= this.v[y];
                         break;
 
                     case 0x3:
-                        this.v[x] = this.v[x] ^ this.v[y];
+                        this.v[x] ^=  this.v[y];
                         break;
 
                     case 0x4: 
@@ -197,7 +197,7 @@ class CPU {
 
                     case 0x5:
                         this.v[0xF] = 0;
-                        if(this.v[x] < this.v[y]) {
+                        if(this.v[x] > this.v[y]) {
                             this.v[0xF] = 1;
                         }
 
@@ -235,7 +235,7 @@ class CPU {
                 break;     
 
             case 0xA000:
-                this.i = (opcode & 0x0FFF);
+                this.i = (opcode & 0xFFF);
                 break;  
 
             case 0xB000:
