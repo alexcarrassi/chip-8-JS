@@ -185,7 +185,7 @@ class CPU {
                         break;
 
                     case 0x4: 
-                        let sum = (this.v[x] + this.v[y]);
+                        let sum = (this.v[x] += this.v[y]);
                         this.v[0xf] = 0;
 
                         if(sum > 0xff) {
@@ -239,12 +239,12 @@ class CPU {
                 break;  
 
             case 0xB000:
-                this.pc = (opcode & 0x0FFF) + this.v[0];
+                this.pc = (opcode & 0xFFF) + this.v[0];
                 break;
 
             case 0xC000:
                 let rand = Math.floor(Math.random() * 0xFF);
-                this.v[x] = rand & (opcode & 0x0FF);
+                this.v[x] = rand & (opcode & 0xFF);
                 break;       
 
             case 0xD000:
@@ -258,14 +258,17 @@ class CPU {
                     let sprite = this.memory[this.i + row];
                     
                     for(let col = 0; col < width; col++) {
-                        if(sprite & 0x80 > 0) {
+
+                        if( (sprite & 0x80) > 0) {
                             if(this.renderer.setPixel(this.v[x] + col, this.v[y] + row)) {
                                 this.v[0xF] = 1;
                             }
                         }
+
+                        sprite <<= 1;
+
                     }
 
-                    sprite <<= 1;
                 }
                 break;     
 
@@ -310,7 +313,7 @@ class CPU {
 
                         break;
                     case 0x1E:
-                        this.i += this.v[x] ;
+                        this.i += this.v[x];
                         break;
                     case 0x29:
                         this.i = this.v[x] * 5;
