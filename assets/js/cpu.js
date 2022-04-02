@@ -78,7 +78,7 @@ class CPU {
     cycle() {
         for(let i = 0; i < this.speed; i++) {
             if(!this.paused) {
-                let opcode = (this.memory[this.pc] << 8 | this.memory[this.opcode +1]);
+                let opcode = (this.memory[this.pc] << 8 | this.memory[this.pc +1]);
                 this.executeInstruction(opcode);
             }
         }
