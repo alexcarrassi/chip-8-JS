@@ -321,14 +321,14 @@ class CPU {
                         this.memory[this.i + 2] = parseInt(this.v[x]  % 10);
                         break;
                     case 0x55:
-                        for( let rIndex =0; rIndex < x; rIndex++) {
+                        for( let rIndex =0; rIndex <= x; rIndex++) {
                             this.memory[this.i + rIndex] = this.v[rIndex];
                         }                             
 
 
                         break;
                     case 0x65:
-                        for( let rIndex = 0; rIndex < x; rIndex++) {
+                        for( let rIndex = 0; rIndex <= x; rIndex++) {
                             this.v[rIndex ] = this.memory[this.i + rIndex];
                         }         
                         break;    
