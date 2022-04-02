@@ -146,13 +146,13 @@ class CPU {
 
             case 0x4000:
                 if(this.v[x] !== (opcode & 0xFF)) {
-                    this.px += 2;
+                    this.pc += 2;
                 }
                 break;
 
             case 0x5000:
-                if(this.v[x] == v[y]) {
-                    this.px +=2;
+                if(this.v[x] == this.v[y]) {
+                    this.pc +=2;
                 }
 
                 break;
@@ -185,7 +185,7 @@ class CPU {
                         break;
 
                     case 0x4: 
-                        let sum = this.v[x] + this.v[y];
+                        let sum = (this.v[x] + this.v[y]);
                         this.v[0xf] = 0;
 
                         if(sum > 0xff) {
@@ -239,7 +239,7 @@ class CPU {
                 break;  
 
             case 0xB000:
-                this.pc = (opcode &0x0FFF) + this.v[0];
+                this.pc = (opcode & 0x0FFF) + this.v[0];
                 break;
 
             case 0xC000:
@@ -249,8 +249,8 @@ class CPU {
 
             case 0xD000:
                 let width = 8;
-                let height = 5;
-                //let height = (opcode & 0xF);
+                // let height = 5;
+                let height = (opcode & 0xF);
 
                 this.v[0xF] = 0;
 
@@ -273,13 +273,13 @@ class CPU {
                 switch (opcode & 0xFF) {
                     case 0x9E:
                         
-                        if(this.keyboard.keysPressed[this.v[x]]) {
+                        if(this.keyboard.isKeyPressed(this.v[x])) {
                             this.pc += 2;
                         }
 
                         break;
                     case 0xA1:
-                        if(!this.keyboard.keysPressed[this.v[x]]) {
+                        if(!this.keyboard.isKeyPressed(this.v[x])) {
                             this.pc += 2;
                         }
                         break;    
@@ -321,15 +321,15 @@ class CPU {
                         this.memory[this.i + 2] = parseInt(this.v[x]  % 10);
                         break;
                     case 0x55:
-                        for( rIndex =0; rIndex < x; rIndex++) {
+                        for( let rIndex =0; rIndex < x; rIndex++) {
                             this.memory[this.i + rIndex] = this.v[rIndex];
                         }                             
 
 
                         break;
                     case 0x65:
-                        for( rIndex =0; rIndex < x; rIndex++) {
-                            this.v[this.i + rIndex ] = this.memory[rIndex];
+                        for( let rIndex = 0; rIndex < x; rIndex++) {
+                            this.v[rIndex ] = this.memory[this.i + rIndex];
                         }         
                         break;    
                 }
