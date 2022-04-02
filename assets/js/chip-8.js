@@ -1,0 +1,44 @@
+import CPU from './cpu.js';
+import Keyboard from './keyboard.js';
+import Renderer from './renderer.js'
+import Speaker from './speaker.js';
+
+document.addEventListener("DOMContentLoaded", function() {
+    const renderer = new Renderer(10);
+    const keyboard = new Keyboard();
+    const speaker = new Speaker();
+    const cpu = new CPU(renderer, keyboard, speaker);
+
+    let loop, fpsInterval, startTime, now, then, elapsed;
+    
+    let fps = 60;
+    
+    function init() {
+        fpsInterval = 1000 / fps;
+        then = Date.now();
+        startTime = then;
+    
+        cpu.loadSpritesIntoMemory();
+        cpu.loadRom("BLITZ");
+
+    
+        loop = requestAnimationFrame(step);
+    }
+    
+    function step() {
+        now = Date.now();
+        elapsed = now - then;
+    
+        if(elapsed > fpsInterval) {
+
+            cpu.cycle();
+        }
+    
+        loop = requestAnimationFrame(step);
+    }
+
+
+    
+    
+    init();
+});
